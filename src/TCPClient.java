@@ -87,7 +87,7 @@ public class TCPClient {
                     String msgToSend = "DATA " + USERNAME + ": " + sc.nextLine();
                     byte[] dataToSend = msgToSend.getBytes();
 
-                    if (msgToSend.equalsIgnoreCase("DATA " + USERNAME + ": " + "QUIT")) {
+                    if (msgToSend.equalsIgnoreCase("DATA " + USERNAME + ": " + "!quit")) {
                         msgFromServer.stop();
                         IMAV.stop();
                         System.out.println("Shutting down");
