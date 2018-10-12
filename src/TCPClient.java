@@ -87,10 +87,14 @@ public class TCPClient {
                     String msgToSend = "DATA " + USERNAME + ": " + sc.nextLine();
                     byte[] dataToSend = msgToSend.getBytes();
 
-                    if (msgToSend.equalsIgnoreCase("DATA " + USERNAME + ": " + "!quit")) {
+                    String CheckforQuit = new String(msgToSend.substring(0, msgToSend.lastIndexOf(": ")));
+                    System.out.println(CheckforQuit);
+                    if (CheckforQuit.equals("QUIT")) {
                         msgFromServer.stop();
                         IMAV.stop();
+                        outToServer.write((CheckforQuit).getBytes());
                         System.out.println("Shutting down");
+                        break;
                     }
 
                     if (msgToSend.trim().length() < 250) {
