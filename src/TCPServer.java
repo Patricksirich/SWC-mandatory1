@@ -94,21 +94,19 @@ public class TCPServer {
                                 String msgIn = new String(dataIn);
                                 msgIn = msgIn.trim();
                                 System.out.println(msgIn);
-                                if (msgIn.equalsIgnoreCase("QUIT")){
-                                    output.write((USERNAME + " has left the chat!").getBytes());
-                                    break;
-                                }
-                                if (!msgIn.contains("DATA " + USERNAME)){
-                                    output.write(("J_ER syntax error: Please send a new message").getBytes());
-                                    break;
-                                }
 
+                                if (msgIn.equalsIgnoreCase("QUIT")) {
+                                    output.write((USERNAME + " has left the chat!").getBytes());
+                                }
                                 if (msgIn.equalsIgnoreCase("QUIT")) {
                                     client.getSocket().close();
                                     users.remove(client);
                                     ListOfClients(users);
                                     System.out.println(users);
+                                    break;
                                 }
+
+
                                 //Tjek om beskeden er over 250 karaktere, send error tilbage hvis sandt.
                                 if (msgIn.trim().length() > 250) {
                                     byte[] J_ER_TooLong;
@@ -117,8 +115,11 @@ public class TCPServer {
                                     output.write(J_ER_TooLong);
                                 } else {
                                     //send beskeden til alle brugere.
+                                    if (!msgIn.contains("DATA " + USERNAME +  ": ")) {
+                                        output.write(("J_ER syntax error: Please send a new message").getBytes());
+                                    }
                                     for (Client c : users) {
-                                        if (!msgIn.equals("IMAV") && !msgIn.equalsIgnoreCase("DATA " + USERNAME + ": !quit")) {
+                                        if (!msgIn.equals("IMAV") && !msgIn.equalsIgnoreCase("QUIT")) {
                                             output = c.getOutput();
                                             output.write(dataIn);
                                         }

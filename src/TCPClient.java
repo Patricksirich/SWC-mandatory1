@@ -87,12 +87,11 @@ public class TCPClient {
                     String msgToSend = "DATA " + USERNAME + ": " + sc.nextLine();
                     byte[] dataToSend = msgToSend.getBytes();
 
-                    String CheckforQuit = new String(msgToSend.substring(0, msgToSend.lastIndexOf(": ")));
-                    System.out.println(CheckforQuit);
-                    if (CheckforQuit.equals("QUIT")) {
+
+                    if (msgToSend.contains("QUIT")) {
                         msgFromServer.stop();
                         IMAV.stop();
-                        outToServer.write((CheckforQuit).getBytes());
+                        outToServer.write(("QUIT").getBytes());
                         System.out.println("Shutting down");
                         break;
                     }
